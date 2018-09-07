@@ -12,18 +12,18 @@
 
 #include "get_next_line.h"
 
-char	*ft_read_line (char **gnl, char *buf, int fd)
+char	*read_gnl(char **gnl, char *buf, int fd)
 {
 	char	*temp;
-	int		rd_fd;
+	int		ret;
 
-	rd_fd = 1;
-	while (!(ft_strchr(*gnl, '\n')) && rd_fd)
+	ret = 1;
+	while (!(ft_strchr(*gnl, '\n')) && ret)
 	{
-		rd_fd = read(fd, buf, BUFF_SIZE);
-		if (rd_fd)
+		ret = read(fd, buf, BUFF_SIZE);
+		if (ret)
 		{
-			buf[rd_fd] = '\0';
+			buf[ret] = '\0';
 			temp = *gnl;
 			if (!(*gnl = ft_strjoin(*gnl, buf)))
 				return (NULL);
@@ -34,31 +34,31 @@ char	*ft_read_line (char **gnl, char *buf, int fd)
 	return (*gnl);
 }
 
-char	*ft_stock_line(char **gnl)
+char	*stock_line(char **gnl)
 {
-	char	*buffer;
-	char	*new_line;
+	char	*newline;
 	char	*temp;
+	char	*buf;
 
-	buffer = ft_strchr(*gnl, '\n');
+	buf = ft_strchr(*gnl, '\n');
 	temp = NULL;
-	if (buffer)
+	if (buf)
 	{
-		if (!(new_line = ft_strndup(*gnl, buffer - *gnl)))
+		if (!(newline = ft_strndup(*gnl, buf - *gnl)))
 			return (NULL);
 		temp = *gnl;
-		if (!(*gnl = ft_strdup(buffer + 1)))
+		if (!(*gnl = ft_strdup(buf + 1)))
 			return (NULL);
 		free(temp);
 	}
-	else if (!(new_line = ft_strdup(*gnl)))
+	else if (!(newline = ft_strdup(*gnl)))
 		return (NULL);
 	if (!(*gnl) || !temp)
 	{
 		free(*gnl);
 		*gnl = NULL;
 	}
-	return (new_line);
+	return (newline);
 }
 
 int		get_next_line(const int fd, char **line)
@@ -66,14 +66,16 @@ int		get_next_line(const int fd, char **line)
 	static char	*gnl;
 	char		*buf;
 
-	*gnl = NULL;
-	if (NO_FILE || NO_BUFF || NO_READ || NO_LINE)
+	*gnl = 0;
+	if (fd < 0 || !line || BUFF_SIZE <= 0 || BUFF_SIZE > 9999999 ||
+		!(buf = ft_strnew(BUFF_SIZE + 1)) || read(fd, buf, 0) == -1 ||
+		(gnl == NULL && !(gnl = ft_strnew(0))))
 		return (-1);
-	if (!(ft_read_line(&gnl, buf, fd)))
+	if (!(read_gnl(&gnl, buf, fd)))
 		return (-1);
 	if (*gnl)
 	{
-		if (!(*line = ft_stock_line(&gnl)))
+		if (!(*line = stock_line(&gnl)))
 			return (-1);
 		return (1);
 	}

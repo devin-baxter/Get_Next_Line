@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: debaxter <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/07 12:53:51 by debaxter          #+#    #+#             */
-/*   Updated: 2018/07/07 12:53:59 by debaxter         ###   ########.fr       */
+/*   Created: 2018/04/24 12:17:22 by debaxter          #+#    #+#             */
+/*   Updated: 2018/04/24 12:17:23 by debaxter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# define BUFF_SIZE 1
+char	*ft_strmap(char const *s, char (*f)(char))
+{
+	unsigned int	i;
+	char			*ptr;
 
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <stdlib.h>
-
-int		get_next_line(const int fd, char **line);
-
-#endif
+	if (!s || !f || (!(ptr = ft_strnew(ft_strlen(s)))))
+		return (NULL);
+	i = 0;
+	while (s[i] != '\0')
+	{
+		ptr[i] = f((char)s[i]);
+		i++;
+	}
+	return (ptr);
+}

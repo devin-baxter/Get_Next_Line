@@ -1,24 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: debaxter <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/07 12:53:51 by debaxter          #+#    #+#             */
-/*   Updated: 2018/07/07 12:53:59 by debaxter         ###   ########.fr       */
+/*   Created: 2018/04/22 17:00:12 by debaxter          #+#    #+#             */
+/*   Updated: 2018/04/22 17:13:15 by debaxter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# define BUFF_SIZE 1
+size_t	ft_strlcat(char *dst, char const *src, size_t dstsize)
+{
+	size_t	i;
+	size_t	j;
 
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <stdlib.h>
-
-int		get_next_line(const int fd, char **line);
-
-#endif
+	i = 0;
+	j = 0;
+	while (dst[i] && i < dstsize)
+		i++;
+	while (src[j] && (i + j + 1) < dstsize)
+	{
+		dst[i + j] = src[j];
+		j++;
+	}
+	if (i < dstsize)
+		dst[i + j] = 0;
+	return (i + ft_strlen(src));
+}

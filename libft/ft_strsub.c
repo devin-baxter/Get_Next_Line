@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strsub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: debaxter <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/07 12:53:51 by debaxter          #+#    #+#             */
-/*   Updated: 2018/07/07 12:53:59 by debaxter         ###   ########.fr       */
+/*   Created: 2018/04/28 13:04:11 by debaxter          #+#    #+#             */
+/*   Updated: 2018/04/28 13:04:12 by debaxter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# define BUFF_SIZE 1
+char	*ft_strsub(char const *s, unsigned int start, size_t len)
+{
+	char	*temp;
+	size_t	i;
 
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <stdlib.h>
-
-int		get_next_line(const int fd, char **line);
-
-#endif
+	if (!s)
+		return (NULL);
+	temp = ft_strnew(len);
+	if (!temp)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		temp[i] = s[start];
+		i++;
+		start++;
+	}
+	return (temp);
+}
