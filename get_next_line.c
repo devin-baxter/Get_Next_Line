@@ -63,10 +63,9 @@ char	*stock_line(char **gnl)
 
 int		get_next_line(const int fd, char **line)
 {
-	static char	*gnl;
+	static char	*gnl = NULL;
 	char		*buf;
 
-	*gnl = 0;
 	if (fd < 0 || !line || BUFF_SIZE <= 0 || BUFF_SIZE > 9999999 ||
 		!(buf = ft_strnew(BUFF_SIZE + 1)) || read(fd, buf, 0) == -1 ||
 		(gnl == NULL && !(gnl = ft_strnew(0))))

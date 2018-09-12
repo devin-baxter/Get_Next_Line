@@ -23,6 +23,10 @@ int		main(int argc, char **argv)
 	fd = open(argv[argc - 1], O_RDONLY);
 	while (get_next_line(fd, &line))
 	{
+		if (get_next_line(fd, &line) == -1)
+		{
+			return (-1);
+		}
 		ft_putendl(line);
 	}
 	close(fd);
